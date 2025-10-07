@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      overflow: hidden;
+      height: 100vh;
+    }
+    .snowflake {
+      position: absolute;
+      top: -10px;
+      user-select: none;
+      animation-name: fall;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.8); /* soft glow */
+    }
+    @keyframes fall {
+		0% {
+			transform: translateX(0) translateY(0);
+		}
+		50% {
+			transform: translateX(20px) translateY(50vh); /* drift right halfway down */
+		}
+		100% {
+			transform: translateX(-20px) translateY(100vh); /* drift left by the end */
+		}
+	}
+  </style>
+</head>
+<body>
+  <script>
+    const snowflakeShapes = ["❄", "❅", "❆", "✻", "✼", "❃"];
+
+    // Random icy-white color generator
+    function randomSnowColor() {
+      const r = 190 + Math.floor(Math.random() * 56); // 190–245
+      const g = r+10; // 200–255
+      const b = 255; // max blue
+      return `rgb(${r}, ${g}, ${b})`;
+    }
+
+    function createSnowflake() {
+      const snowflake = document.createElement("div");
+      snowflake.classList.add("snowflake");
+
+      // Random shape
+      snowflake.textContent = snowflakeShapes[Math.floor(Math.random() * snowflakeShapes.length)];
+
+      // Random position, size, speed, opacity
+      snowflake.style.left = Math.random() * window.innerWidth + "px";
+      snowflake.style.fontSize = (Math.random() * 85 + 10) + "px";
+      snowflake.style.animationDuration = (Math.random() * 7 + 3) + "s";
+      snowflake.style.opacity = 0.7 + Math.random() * 0.3; // more visible with glow
+
+      // Random icy-white color
+      snowflake.style.color = randomSnowColor();
+
+      // Matching glow color
+      snowflake.style.textShadow = `0 0 8px ${snowflake.style.color}`;
+
+      document.body.appendChild(snowflake);
+
+      setTimeout(() => {
+        snowflake.remove();
+      }, 15000);
+    }
+
+    setInterval(createSnowflake, 150);
+  </script>
+</body>
+</html>
